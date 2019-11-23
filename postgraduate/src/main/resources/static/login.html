@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>Signin Template for Bootstrap</title>
+		<!-- Bootstrap core CSS -->
+		<link href="asserts/css/bootstrap.min.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="asserts/css/signin.css"  rel="stylesheet">
+		<script src="webjars/jquery/3.4.1/jquery.min.js"></script>
+		<script src="asserts/js/jquerySession.js"></script>
+	</head>
+	<body class="text-center">
+		<form class="form-signin">
+			<img class="mb-4" src="asserts/img/bootstrap-solid.svg" alt="" width="72" height="72">
+			<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+			<label class="sr-only" >Username</label>
+			<input type="text" class="form-control" placeholder="Username" name="username" id="username"
+				   required=""
+				   autofocus="">
+			<label class="sr-only" >Password</label>
+			<input type="password" class="form-control" name="password" placeholder="Password" id="password"
+				   required="">
+			<div class="checkbox mb-3">
+				<label>
+          <input type="checkbox" value="remember-me"/>remember me
+        </label>
+			</div>
+			<button class="btn btn-lg btn-primary btn-block" type="button" id="signBtn" >Sign
+				in</button>
+			<p class="mt-5 mb-3 text-muted">© 2017-2018</p>
+			<!--<a class="btn btn-sm" th:href="@{/static/login.html(l='zh_CN')}">中文</a>-->
+			<!--<a class="btn btn-sm" th:href="@{/static/login.html(l='en_US')}">English</a>-->
+		</form>
+	</body>
+
+	<script>
+		$(function () {
+			$("#signBtn").click(function () {
+			    var params ={
+                    "username" : $("#username").val(),
+                	"password" : $("#password").val()
+				};
+			    if (params.username == null || params.password == null){
+			        alert("账号或密码不能为空");
+				}else {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",//返回的数据类型
+                        url: "/postgraduate/user/login",
+                        data: params,
+                        success: function (res){
+                            if (res.code == 200){
+                                localStorage.setItem("schoolname", res.data);
+                                location.href = "html/dashboard.html"
+                            }else {
+                                alert(res.msg)
+							}
+                        },
+                        error: function(err){
+                            alert("服务器内部错误");
+                        }
+                    })
+				}
+            })
+        })
+
+	</script>
+
+</html>

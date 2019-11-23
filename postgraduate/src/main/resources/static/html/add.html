@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard Template for Bootstrap</title>
+    <!-- Bootstrap core CSS -->
+    <!--<link rel='stylesheet prefetch' href='asserts/scss/bootstrap.min.css' th:href="@{/asserts/scss/bootstrap.min.css}">-->
+    <link href="asserts/css/bootstrap.min.css" th:href="@{/asserts/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="asserts/css/dashboard.css" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+
+    <link rel="stylesheet" href="asserts/css/style.css" th:href="@{/asserts/css/style.css}">
+    <script type="text/javascript" src="asserts/js/xlsx.core.min.js" th:src="@{/asserts/js/xlsx.core.min.js}"></script>
+
+    <style type="text/css">
+        /* Chart.js */
+
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+</head>
+
+<body>
+<!--引入抽取的topbar-->
+<!--模板名：会使用thymeleaf是前后缀配置规则进行解析-->
+<!--<div th:replace="~{dashboard::topbar}"></div>/-->
+<!--引入顶部bar-->
+<div th:replace="commons/bar::topbar"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!--<div th:replace="~{dashboard::#sidebar}"></div>-->
+        <!--引入侧边bar-->
+        <div th:switch="${session.loginUser}">
+            <div th:case="admin">
+                <div th:replace="commons/bar::#sidebar(activeUri='files')"></div>
+            </div>
+            <div th:case="*">
+                <div th:replace="commons/bar::#sidebar_school(activeUri='files')"></div>
+            </div>
+
+        </div>
+
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+            <h1>考研数据分析平台</h1>
+            <h4>请上传需要分析的EXCEL文件</h4>
+
+            <form th:action="@{/file}" method="post" enctype="multipart/form-data" onsubmit="return check()">
+
+                <div class="container">
+
+                    <div class="form-group">
+                        <input type="file" name="file" class="file">
+                        <div class="input-group col-xs-12">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-upload"></i></span>
+                            <input type="text" class="form-control input-lg" disabled placeholder="Upload Excel"
+                                   id="inputId"
+                                   th:value="${user != null}?${user.pathExcel}">
+                            <span class="input-group-btn">
+                                <button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" th:text="${user != null}?'修改':'添加'">添加</button>
+                </div>
+
+            </form>
+        </main>
+    </div>
+</div>
+<script>
+    function check() {
+        console.log("11111111111111111111")
+        if ($("#inputId").val() == ""){
+            alert("文件不能为空")
+            return false
+        }
+        return true
+    }
+</script>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="asserts/js/jquery-3.2.1.slim.min.js"></script>
+<script type="text/javascript" src="asserts/js/popper.min.js"></script>
+<script type="text/javascript" src="asserts/js/bootstrap.min.js"></script>
+
+<!-- Icons -->
+<script type="text/javascript" src="asserts/js/feather.min.js"></script>
+<script>
+    feather.replace()
+</script>
+
+
+
+<script src='asserts/js/jquery.min.js' th:src="@{/asserts/js/jquery.min.js}"></script>
+<script src='asserts/js/bootstrap.min.js' th:src="@{/asserts/js/bootstrap.min.js}"></script>
+
+<script  src="asserts/js/index.js" th:src="@{/asserts/js/index.js}"></script>
+
+</body>
+
+</html>

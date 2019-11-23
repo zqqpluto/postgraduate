@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="testTables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!--【需要改】数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/postgraduate?serverTimezone=UTC"
+            userId="root" password="123456">
+            <!--数据库中字段，对应生成JavaBean字段缺失或者错误，添加该字段-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL
+            和 NUMERIC 类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 【需要改】targetProject:生成PO类的位置 -->
+        <javaModelGenerator targetPackage="cn.pluto.postgraduate.pojo"
+                            targetProject=".\src\main\java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 【需要改】targetProject:mapper映射文件（接口和xml生成的位置）生成的位置 -->
+        <sqlMapGenerator targetPackage="mybatis\mapper"
+                         targetProject=".\src\main\resources">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- 【需要改】targetPackage：mapper接口生成的位置 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="cn.pluto.postgraduate.dao" targetProject=".\src\main\java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!-- 【需要改】指定数据库表 -->
+        <table schema="postgraduate" tableName="user"></table>
+        <table schema="postgraduate" tableName="excelpath"></table>
+        <table schema="postgraduate" tableName="modelpath"></table>
+
+
+    </context>
+</generatorConfiguration>
